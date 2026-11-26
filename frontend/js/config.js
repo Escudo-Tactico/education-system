@@ -103,6 +103,15 @@ const APP_CONFIG = Object.freeze({
   })
 });
 
+// Configuración de endpoints de la API reutilizando la URL base central
+const API_CONFIG = Object.freeze({
+  baseUrl: APP_CONFIG.API_BASE_URL,
+  endpoints: Object.freeze({
+    login: '/auth/login',
+    usuarios: '/usuarios'
+  })
+});
+
 /**
  * Construye una URL completa hacia el backend evitando barras duplicadas.
  * @param {string} ruta - Ruta relativa del recurso (ej. '/usuarios' o 'usuarios').
@@ -117,5 +126,6 @@ function construirUrlApi(ruta = '') {
 // Exposición explícita en el ámbito global para scripts clásicos sin bundler
 if (typeof window !== 'undefined') {
   window.APP_CONFIG = APP_CONFIG;
+  window.API_CONFIG = API_CONFIG;
   window.construirUrlApi = construirUrlApi;
 }
