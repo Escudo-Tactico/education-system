@@ -98,7 +98,7 @@ const APP_CONFIG = Object.freeze({
       'grado',
       'letra_seccion',
       'bloque_horario',
-      'aula_asignada'
+      'aula'
     ])
   })
 });
@@ -108,7 +108,12 @@ const API_CONFIG = Object.freeze({
   baseUrl: APP_CONFIG.API_BASE_URL,
   endpoints: Object.freeze({
     login: '/auth/login',
-    usuarios: '/usuarios'
+    usuarios: '/usuarios',
+    estudiantes: '/estudiantes',
+    secciones: '/secciones',
+    inscripciones: '/inscripciones',
+    checklist: '/checklist',
+    horarios: '/horarios'
   })
 });
 
