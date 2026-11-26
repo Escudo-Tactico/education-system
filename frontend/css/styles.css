@@ -127,3 +127,275 @@ body {
   background-color: var(--blanco);
   margin-top: 3rem;
 }
+
+/* Contenedor compacto para formularios de acceso y registro */
+.contenedor--estrecho {
+  max-width: 560px;
+}
+
+.form-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+.form-grupo label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: var(--azul-oscuro);
+}
+
+.form-grupo input,
+.form-grupo select {
+  width: 100%;
+  padding: 0.65rem 0.75rem;
+  border: 1px solid var(--gris-borde);
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.95rem;
+  color: var(--texto-principal);
+  background-color: var(--blanco);
+}
+
+.form-grupo input:focus,
+.form-grupo select:focus {
+  outline: none;
+  border-color: var(--azul-medio);
+  box-shadow: 0 0 0 2px var(--azul-claro);
+}
+
+.nota-campo {
+  font-size: 0.82rem;
+  color: var(--gris-texto);
+}
+
+.btn-primario {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--azul-oscuro);
+  color: var(--blanco);
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-primario:hover {
+  background-color: var(--azul-medio);
+}
+
+.btn-primario:disabled {
+  background-color: var(--gris-texto);
+  cursor: not-allowed;
+}
+
+.mensaje-estado {
+  display: none;
+  padding: 0.85rem 1rem;
+  border-radius: 4px;
+  font-size: 0.92rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--gris-borde);
+}
+
+.mensaje-estado--visible {
+  display: block;
+}
+
+.mensaje-estado--exito {
+  background-color: var(--azul-claro);
+  border-color: var(--azul-medio);
+  color: var(--azul-oscuro);
+}
+
+.mensaje-estado--error {
+  background-color: var(--gris-fondo);
+  border-color: var(--azul-oscuro);
+  color: var(--texto-principal);
+}
+
+.enlace-secundario {
+  margin-top: 1.25rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--gris-texto);
+}
+
+.enlace-secundario a {
+  color: var(--azul-medio);
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.enlace-secundario a:hover {
+  text-decoration: underline;
+}
+
+/* Estilos reutilizables para paneles administrativos */
+.panel-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.panel-usuario {
+  font-size: 0.9rem;
+  color: var(--gris-texto);
+}
+
+.panel-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 2px solid var(--gris-borde);
+  padding-bottom: 0.75rem;
+}
+
+.panel-tab {
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--gris-borde);
+  border-radius: 4px;
+  background-color: var(--blanco);
+  color: var(--azul-oscuro);
+  font-size: 0.92rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.panel-tab:hover {
+  background-color: var(--azul-claro);
+}
+
+.panel-tab--activa {
+  background-color: var(--azul-oscuro);
+  border-color: var(--azul-oscuro);
+  color: var(--blanco);
+}
+
+.panel-tab--activa:hover {
+  background-color: var(--azul-medio);
+}
+
+.panel-seccion {
+  display: none;
+}
+
+.panel-seccion--activa {
+  display: block;
+}
+
+.grid-panel {
+  display: grid;
+  grid-template-columns: minmax(280px, 360px) 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .grid-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+.btn-secundario {
+  padding: 0.45rem 0.9rem;
+  border: 1px solid var(--azul-medio);
+  border-radius: 4px;
+  background-color: var(--blanco);
+  color: var(--azul-oscuro);
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-secundario:hover {
+  background-color: var(--azul-claro);
+}
+
+.tabla-contenedor {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.tabla-datos {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.tabla-datos th,
+.tabla-datos td {
+  padding: 0.65rem 0.75rem;
+  border-bottom: 1px solid var(--gris-borde);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.tabla-datos th {
+  background-color: var(--azul-claro);
+  color: var(--azul-oscuro);
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.tabla-datos tbody tr:hover {
+  background-color: var(--gris-fondo);
+}
+
+.badge-estado {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  border: 1px solid var(--gris-borde);
+}
+
+.badge-estado--aprobada {
+  background-color: var(--azul-claro);
+  border-color: var(--azul-medio);
+  color: var(--azul-oscuro);
+}
+
+.badge-estado--pendiente {
+  background-color: var(--gris-fondo);
+  border-color: var(--gris-borde);
+  color: var(--gris-texto);
+}
+
+.badge-estado--alerta {
+  background-color: var(--azul-oscuro);
+  border-color: var(--azul-oscuro);
+  color: var(--blanco);
+}
+
+.checklist-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--gris-borde);
+  border-radius: 4px;
+  background-color: var(--gris-fondo);
+  font-size: 0.9rem;
+  color: var(--texto-principal);
+  cursor: pointer;
+}
+
+.checklist-item input[type="checkbox"] {
+  width: auto;
+  accent-color: var(--azul-oscuro);
+}
