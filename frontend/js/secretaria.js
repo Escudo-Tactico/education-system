@@ -1,96 +1,36 @@
-/**
- * Lógica del Panel de Secretaría — Escuela Maestro Feliciano Rodríguez.
- * Gestiona Estudiantes, Secciones, Horarios/Aulas, Inscripciones y Checklist de Documentos
- * respetando los nombres exactos de variables de PROJECT_CONTEXT.md y con respaldo local seguro.
- */
+// secretaria.js — Panel de Secretaría
 
-// Datos de respaldo cuando el backend en Node.js aún no responde
+// Datos de simulación cuando el backend aún no responde
 const DATOS_RESPALDO_SECRETARIA = {
   estudiantes: [
     {
-      id_estudiante: 1,
-      nombres: 'Sofía Valentina',
-      apellidos: 'Rojas Mendoza',
-      cedula_escolar: '11524680321',
-      fecha_nacimiento: '2016-04-12'
+      id_estudiante: 1, cedula_escolar: '11524680321',
+      nombres: 'Sofía Valentina', apellidos: 'Rojas Mendoza',
+      fecha_nacimiento: '2016-04-12', sexo: 'F',
+      direccion: 'Sector Centro, Calle Bolívar', estado: 'activo'
     },
     {
-      id_estudiante: 2,
-      nombres: 'Mateo Alejandro',
-      apellidos: 'Silva Torres',
-      cedula_escolar: '11719450812',
-      fecha_nacimiento: '2017-09-25'
+      id_estudiante: 2, cedula_escolar: '11719450812',
+      nombres: 'Mateo Alejandro', apellidos: 'Silva Torres',
+      fecha_nacimiento: '2017-09-25', sexo: 'M',
+      direccion: 'Urbanización Los Robles', estado: 'activo'
     }
   ],
   secciones: [
-    {
-      id_seccion: 1,
-      grado: '3er Grado',
-      letra_seccion: 'A',
-      periodo_escolar: '2026-2027',
-      id_docente: 10
-    },
-    {
-      id_seccion: 2,
-      grado: '2do Grado',
-      letra_seccion: 'B',
-      periodo_escolar: '2026-2027',
-      id_docente: 12
-    }
+    { id_seccion: 1, grado: '3er Grado', letra_seccion: 'A', periodo_escolar: '2026-2027', id_docente: 10 },
+    { id_seccion: 2, grado: '2do Grado', letra_seccion: 'B', periodo_escolar: '2026-2027', id_docente: 12 }
   ],
   horarios: [
-    {
-      id_seccion: 1,
-      id_docente: 10,
-      grado: '3er Grado',
-      letra_seccion: 'A',
-      bloque_horario: 'Lun-Mie 07:30-09:00',
-      aula: 'Aula 03'
-    },
-    {
-      id_seccion: 2,
-      id_docente: 12,
-      grado: '2do Grado',
-      letra_seccion: 'B',
-      bloque_horario: 'Lun-Mie 09:15-10:45',
-      aula: 'Aula 02'
-    }
+    { id_seccion: 1, id_docente: 10, grado: '3er Grado', letra_seccion: 'A', bloque_horario: 'Lun-Mie 07:30-09:00', aula: 'Aula 03' },
+    { id_seccion: 2, id_docente: 12, grado: '2do Grado', letra_seccion: 'B', bloque_horario: 'Lun-Mie 09:15-10:45', aula: 'Aula 02' }
   ],
   inscripciones: [
-    {
-      id_inscripcion: 1,
-      fecha_inscripcion: '2026-09-15',
-      estado: 'aprobada',
-      id_estudiante: 1,
-      id_seccion: 1
-    },
-    {
-      id_inscripcion: 2,
-      fecha_inscripcion: '2026-09-18',
-      estado: 'pendiente',
-      id_estudiante: 2,
-      id_seccion: 2
-    }
+    { id_inscripcion: 1, fecha_inscripcion: '2026-09-15', estado: 'aprobada', id_estudiante: 1, id_seccion: 1 },
+    { id_inscripcion: 2, fecha_inscripcion: '2026-09-18', estado: 'pendiente', id_estudiante: 2, id_seccion: 2 }
   ],
   checklists: [
-    {
-      id_checklist: 1,
-      partida_nacimiento: true,
-      cedula_representante: true,
-      cedula_estudiante: true,
-      fotos: true,
-      planillas: true,
-      id_inscripcion: 1
-    },
-    {
-      id_checklist: 2,
-      partida_nacimiento: true,
-      cedula_representante: true,
-      cedula_estudiante: false,
-      fotos: false,
-      planillas: true,
-      id_inscripcion: 2
-    }
+    { id_checklist: 1, partida_nacimiento: true, cedula_representante: true, cedula_estudiante: true, fotos: true, planillas: true, id_inscripcion: 1 },
+    { id_checklist: 2, partida_nacimiento: true, cedula_representante: true, cedula_estudiante: false, fotos: false, planillas: true, id_inscripcion: 2 }
   ]
 };
 
@@ -116,24 +56,17 @@ function crearCeldaTexto(valor) {
 function mostrarMensajePanel(texto, tipo = 'exito') {
   const contenedor = document.getElementById('mensaje-panel');
   if (!contenedor) return;
-
   contenedor.textContent = texto;
   contenedor.className = 'mensaje-estado mensaje-estado--visible';
   contenedor.classList.add(tipo === 'error' ? 'mensaje-estado--error' : 'mensaje-estado--exito');
 }
 
 function cambiarPestana(nombreTab) {
-  const botones = document.querySelectorAll('.panel-tab');
-  const secciones = document.querySelectorAll('.panel-seccion');
-
-  botones.forEach((boton) => {
-    const activa = boton.dataset.tab === nombreTab;
-    boton.classList.toggle('panel-tab--activa', activa);
+  document.querySelectorAll('.panel-tab').forEach((boton) => {
+    boton.classList.toggle('panel-tab--activa', boton.dataset.tab === nombreTab);
   });
-
-  secciones.forEach((seccion) => {
-    const activa = seccion.id === `seccion-${nombreTab}`;
-    seccion.classList.toggle('panel-seccion--activa', activa);
+  document.querySelectorAll('.panel-seccion').forEach((seccion) => {
+    seccion.classList.toggle('panel-seccion--activa', seccion.id === `seccion-${nombreTab}`);
   });
 }
 
@@ -148,124 +81,85 @@ function validarAccesoSecretaria() {
   }
 
   if (!usuario) {
-    if (textoUsuario) {
-      textoUsuario.textContent = 'Sesión no iniciada (modo vista previa / simulación local).';
-    }
+    if (textoUsuario) textoUsuario.textContent = 'Sesión no iniciada (simulación local).';
     return true;
   }
 
-  if (usuario.rol && usuario.rol !== APP_CONFIG.ROLES.SECRETARIA) {
-    window.location.href = obtenerRutaPorRol(usuario.rol);
+  const rolUsuario = usuario.Nombre_rol || usuario.rol || '';
+  const rolNormalizado = typeof normalizarNombreRol === 'function'
+    ? normalizarNombreRol(rolUsuario)
+    : String(rolUsuario).toLowerCase();
+
+  if (rolNormalizado && rolNormalizado !== APP_CONFIG.ROLES.SECRETARIA) {
+    window.location.href = obtenerRutaPorRol(rolUsuario);
     return false;
   }
 
   if (textoUsuario) {
-    const nombre = usuario.nombre_completo || usuario.correo || 'Secretaría';
-    textoUsuario.textContent = `Sesión activa: ${nombre} (rol: ${usuario.rol || 'secretaria'})`;
+    const nombre = usuario.nombre_usuario || usuario.correo || 'Secretaría';
+    textoUsuario.textContent = `Sesión activa: ${nombre} (rol: ${rolUsuario || 'secretaria'})`;
   }
   return true;
 }
 
-/**
- * Realiza peticiones fetch hacia el backend Node.js adjuntando token si existe.
- */
+// Fetch con token Bearer si existe sesión activa
 async function solicitarApiSecretaria(ruta, opciones = {}) {
-  const token =
-    typeof AUTH_STORAGE_KEYS !== 'undefined'
-      ? localStorage.getItem(AUTH_STORAGE_KEYS.token)
-      : null;
+  const token = typeof AUTH_STORAGE_KEYS !== 'undefined'
+    ? localStorage.getItem(AUTH_STORAGE_KEYS.token)
+    : null;
 
-  const headers = {
-    'Content-Type': 'application/json',
-    ...(opciones.headers || {})
-  };
+  const headers = { 'Content-Type': 'application/json', ...(opciones.headers || {}) };
+  if (token) headers.Authorization = `Bearer ${token}`;
 
-  if (token) {
-    headers.Authorization = `Bearer ${token}`;
-  }
-
-  const respuesta = await fetch(`${API_CONFIG.baseUrl}${ruta}`, {
-    ...opciones,
-    headers
-  });
+  const respuesta = await fetch(`${API_CONFIG.baseUrl}${ruta}`, { ...opciones, headers });
 
   let datos = null;
-  try {
-    datos = await respuesta.json();
-  } catch (_) {
-    datos = null;
-  }
+  try { datos = await respuesta.json(); } catch (_) { datos = null; }
 
   if (!respuesta.ok) {
-    const detalle = datos && (datos.mensaje || datos.error);
-    throw new Error(detalle || `Error HTTP ${respuesta.status}`);
+    throw new Error((datos && (datos.mensaje || datos.error)) || `Error HTTP ${respuesta.status}`);
   }
-
   return datos;
 }
 
 function normalizarColeccion(respuesta, claveOpcional) {
   if (Array.isArray(respuesta)) return respuesta;
-  if (respuesta && claveOpcional && Array.isArray(respuesta[claveOpcional])) {
-    return respuesta[claveOpcional];
-  }
+  if (respuesta && claveOpcional && Array.isArray(respuesta[claveOpcional])) return respuesta[claveOpcional];
   if (respuesta && Array.isArray(respuesta.datos)) return respuesta.datos;
   return null;
 }
 
 async function cargarDatosSecretaria() {
-  const endpoints = API_CONFIG.endpoints;
-  const peticiones = [
-    solicitarApiSecretaria(endpoints.estudiantes),
-    solicitarApiSecretaria(endpoints.secciones),
-    solicitarApiSecretaria(endpoints.inscripciones),
-    solicitarApiSecretaria(endpoints.checklist),
-    solicitarApiSecretaria(endpoints.horarios)
-  ];
+  const ep = API_CONFIG.endpoints;
+  const resultados = await Promise.allSettled([
+    solicitarApiSecretaria(ep.estudiantes),
+    solicitarApiSecretaria(ep.secciones),
+    solicitarApiSecretaria(ep.inscripciones),
+    solicitarApiSecretaria(ep.checklist),
+    solicitarApiSecretaria(ep.horarios)
+  ]);
 
-  const resultados = await Promise.allSettled(peticiones);
-  const fallidos = resultados.filter((res) => res.status === 'rejected').length;
+  const fallidos = resultados.filter((r) => r.status === 'rejected').length;
+  const obtener = (i, clave, respaldo) =>
+    resultados[i].status === 'fulfilled'
+      ? normalizarColeccion(resultados[i].value, clave) || clonarDatosRespaldo(respaldo)
+      : clonarDatosRespaldo(respaldo);
 
-  estadoSecretaria.estudiantes =
-    resultados[0].status === 'fulfilled'
-      ? normalizarColeccion(resultados[0].value, 'estudiantes') || clonarDatosRespaldo(DATOS_RESPALDO_SECRETARIA.estudiantes)
-      : clonarDatosRespaldo(DATOS_RESPALDO_SECRETARIA.estudiantes);
-
-  estadoSecretaria.secciones =
-    resultados[1].status === 'fulfilled'
-      ? normalizarColeccion(resultados[1].value, 'secciones') || clonarDatosRespaldo(DATOS_RESPALDO_SECRETARIA.secciones)
-      : clonarDatosRespaldo(DATOS_RESPALDO_SECRETARIA.secciones);
-
-  estadoSecretaria.inscripciones =
-    resultados[2].status === 'fulfilled'
-      ? normalizarColeccion(resultados[2].value, 'inscripciones') || clonarDatosRespaldo(DATOS_RESPALDO_SECRETARIA.inscripciones)
-      : clonarDatosRespaldo(DATOS_RESPALDO_SECRETARIA.inscripciones);
-
-  estadoSecretaria.checklists =
-    resultados[3].status === 'fulfilled'
-      ? normalizarColeccion(resultados[3].value, 'checklists') || clonarDatosRespaldo(DATOS_RESPALDO_SECRETARIA.checklists)
-      : clonarDatosRespaldo(DATOS_RESPALDO_SECRETARIA.checklists);
-
-  estadoSecretaria.horarios =
-    resultados[4].status === 'fulfilled'
-      ? normalizarColeccion(resultados[4].value, 'horarios') || clonarDatosRespaldo(DATOS_RESPALDO_SECRETARIA.horarios)
-      : clonarDatosRespaldo(DATOS_RESPALDO_SECRETARIA.horarios);
-
+  estadoSecretaria.estudiantes = obtener(0, 'estudiantes', DATOS_RESPALDO_SECRETARIA.estudiantes);
+  estadoSecretaria.secciones = obtener(1, 'secciones', DATOS_RESPALDO_SECRETARIA.secciones);
+  estadoSecretaria.inscripciones = obtener(2, 'inscripciones', DATOS_RESPALDO_SECRETARIA.inscripciones);
+  estadoSecretaria.checklists = obtener(3, 'checklists', DATOS_RESPALDO_SECRETARIA.checklists);
+  estadoSecretaria.horarios = obtener(4, 'horarios', DATOS_RESPALDO_SECRETARIA.horarios);
   estadoSecretaria.modoSimulacion = fallidos > 0;
 
   renderizarTodoSecretaria();
 
   if (estadoSecretaria.modoSimulacion) {
-    mostrarMensajePanel(
-      'El servidor backend aún no responde en todas las rutas. Se muestran datos de simulación local en memoria.',
-      'exito'
-    );
+    mostrarMensajePanel('Backend no disponible en todas las rutas. Se muestran datos de simulación local.', 'exito');
   }
 }
 
-/**
- * Detecta choques por mismo bloque_horario con igual id_docente o igual aula.
- */
+// Detecta choques: mismo bloque_horario con igual id_docente o igual aula
 function detectarChoqueHorario(horarioObjetivo, listaHorarios, indiceIgnorar = -1) {
   const bloque = String(horarioObjetivo.bloque_horario || '').trim().toLowerCase();
   const aula = String(horarioObjetivo.aula || '').trim().toLowerCase();
@@ -274,8 +168,7 @@ function detectarChoqueHorario(horarioObjetivo, listaHorarios, indiceIgnorar = -
   for (let i = 0; i < listaHorarios.length; i += 1) {
     if (i === indiceIgnorar) continue;
     const actual = listaHorarios[i];
-    const mismoBloque = String(actual.bloque_horario || '').trim().toLowerCase() === bloque;
-    if (!mismoBloque) continue;
+    if (String(actual.bloque_horario || '').trim().toLowerCase() !== bloque) continue;
 
     if (Number(actual.id_docente) === docente) {
       return `Choque de docente (id_docente ${docente}) en el bloque ${horarioObjetivo.bloque_horario}.`;
@@ -291,14 +184,10 @@ function renderizarEstudiantes() {
   const tbody = document.getElementById('tabla-estudiantes');
   if (!tbody) return;
   tbody.innerHTML = '';
-
   estadoSecretaria.estudiantes.forEach((est) => {
     const tr = document.createElement('tr');
-    tr.appendChild(crearCeldaTexto(est.id_estudiante));
-    tr.appendChild(crearCeldaTexto(est.nombres));
-    tr.appendChild(crearCeldaTexto(est.apellidos));
-    tr.appendChild(crearCeldaTexto(est.cedula_escolar));
-    tr.appendChild(crearCeldaTexto(est.fecha_nacimiento));
+    ['id_estudiante', 'cedula_escolar', 'nombres', 'apellidos', 'fecha_nacimiento', 'sexo', 'direccion', 'estado']
+      .forEach((campo) => tr.appendChild(crearCeldaTexto(est[campo])));
     tbody.appendChild(tr);
   });
 }
@@ -307,14 +196,10 @@ function renderizarSecciones() {
   const tbody = document.getElementById('tabla-secciones');
   if (!tbody) return;
   tbody.innerHTML = '';
-
   estadoSecretaria.secciones.forEach((sec) => {
     const tr = document.createElement('tr');
-    tr.appendChild(crearCeldaTexto(sec.id_seccion));
-    tr.appendChild(crearCeldaTexto(sec.grado));
-    tr.appendChild(crearCeldaTexto(sec.letra_seccion));
-    tr.appendChild(crearCeldaTexto(sec.periodo_escolar));
-    tr.appendChild(crearCeldaTexto(sec.id_docente));
+    ['id_seccion', 'grado', 'letra_seccion', 'periodo_escolar', 'id_docente']
+      .forEach((campo) => tr.appendChild(crearCeldaTexto(sec[campo])));
     tbody.appendChild(tr);
   });
 }
@@ -336,14 +221,11 @@ function renderizarHorarios() {
 
     const tdEstado = document.createElement('td');
     const badge = document.createElement('span');
-    badge.className = choque
-      ? 'badge-estado badge-estado--alerta'
-      : 'badge-estado badge-estado--aprobada';
+    badge.className = choque ? 'badge-estado badge-estado--alerta' : 'badge-estado badge-estado--aprobada';
     badge.textContent = choque ? 'Choque detectado' : 'Sin choques';
     if (choque) badge.title = choque;
     tdEstado.appendChild(badge);
     tr.appendChild(tdEstado);
-
     tbody.appendChild(tr);
   });
 }
@@ -360,11 +242,9 @@ function renderizarInscripciones() {
 
     const tdEstado = document.createElement('td');
     const badge = document.createElement('span');
-    const claseEstado =
-      ins.estado === APP_CONFIG.ESTADOS_INSCRIPCION.APROBADA
-        ? 'badge-estado--aprobada'
-        : 'badge-estado--pendiente';
-    badge.className = `badge-estado ${claseEstado}`;
+    badge.className = `badge-estado ${
+      ins.estado === APP_CONFIG.ESTADOS_INSCRIPCION.APROBADA ? 'badge-estado--aprobada' : 'badge-estado--pendiente'
+    }`;
     badge.textContent = ins.estado;
     tdEstado.appendChild(badge);
     tr.appendChild(tdEstado);
@@ -378,9 +258,7 @@ function renderizarInscripciones() {
 function crearCeldaBooleana(cumplido) {
   const td = document.createElement('td');
   const badge = document.createElement('span');
-  badge.className = cumplido
-    ? 'badge-estado badge-estado--aprobada'
-    : 'badge-estado badge-estado--pendiente';
+  badge.className = cumplido ? 'badge-estado badge-estado--aprobada' : 'badge-estado badge-estado--pendiente';
   badge.textContent = cumplido ? 'Entregado' : 'Faltante';
   td.appendChild(badge);
   return td;
@@ -390,16 +268,12 @@ function renderizarChecklist() {
   const tbody = document.getElementById('tabla-checklist');
   if (!tbody) return;
   tbody.innerHTML = '';
-
   estadoSecretaria.checklists.forEach((chk) => {
     const tr = document.createElement('tr');
     tr.appendChild(crearCeldaTexto(chk.id_checklist));
     tr.appendChild(crearCeldaTexto(chk.id_inscripcion));
-    tr.appendChild(crearCeldaBooleana(Boolean(chk.partida_nacimiento)));
-    tr.appendChild(crearCeldaBooleana(Boolean(chk.cedula_representante)));
-    tr.appendChild(crearCeldaBooleana(Boolean(chk.cedula_estudiante)));
-    tr.appendChild(crearCeldaBooleana(Boolean(chk.fotos)));
-    tr.appendChild(crearCeldaBooleana(Boolean(chk.planillas)));
+    ['partida_nacimiento', 'cedula_representante', 'cedula_estudiante', 'fotos', 'planillas']
+      .forEach((campo) => tr.appendChild(crearCeldaBooleana(Boolean(chk[campo]))));
     tbody.appendChild(tr);
   });
 }
@@ -442,6 +316,7 @@ function actualizarSelectoresPanel() {
   }
 }
 
+// Autocompleta grado y letra_seccion al seleccionar sección en el form de horario
 function sincronizarDatosSeccionHorario() {
   const selectSec = document.getElementById('horario_id_seccion');
   const inputDocente = document.getElementById('horario_id_docente');
@@ -473,9 +348,7 @@ function precargarChecklistExistente() {
 
   APP_CONFIG.CHECKLIST_DOCUMENTOS.forEach(({ campo }) => {
     const checkbox = document.getElementById(campo);
-    if (checkbox) {
-      checkbox.checked = existente ? Boolean(existente[campo]) : false;
-    }
+    if (checkbox) checkbox.checked = existente ? Boolean(existente[campo]) : false;
   });
 }
 
@@ -492,6 +365,7 @@ function obtenerSiguienteId(lista, claveId) {
   return lista.reduce((max, item) => Math.max(max, Number(item[claveId]) || 0), 0) + 1;
 }
 
+// Envía al backend; si no responde, guarda en memoria local
 async function enviarConRespaldoLocal(ruta, metodo, payload, alExitoLocal) {
   try {
     const respuesta = await solicitarApiSecretaria(ruta, {
@@ -500,7 +374,6 @@ async function enviarConRespaldoLocal(ruta, metodo, payload, alExitoLocal) {
     });
     alExitoLocal(respuesta, false);
   } catch (error) {
-    // Si el backend no está disponible, se guarda en el estado de simulación local
     if (error.name === 'TypeError' || estadoSecretaria.modoSimulacion) {
       alExitoLocal(payload, true);
       return;
@@ -512,13 +385,17 @@ async function enviarConRespaldoLocal(ruta, metodo, payload, alExitoLocal) {
 async function registrarEstudiante(evento) {
   evento.preventDefault();
   const payload = {
+    cedula_escolar: document.getElementById('cedula_escolar').value.trim(),
     nombres: document.getElementById('nombres').value.trim(),
     apellidos: document.getElementById('apellidos').value.trim(),
-    cedula_escolar: document.getElementById('cedula_escolar').value.trim(),
-    fecha_nacimiento: document.getElementById('fecha_nacimiento').value
+    fecha_nacimiento: document.getElementById('fecha_nacimiento').value,
+    sexo: document.getElementById('sexo').value,
+    direccion: document.getElementById('direccion').value.trim(),
+    estado: document.getElementById('estado_estudiante').value
   };
 
-  if (!payload.nombres || !payload.apellidos || !payload.cedula_escolar || !payload.fecha_nacimiento) {
+  if (!payload.cedula_escolar || !payload.nombres || !payload.apellidos ||
+      !payload.fecha_nacimiento || !payload.sexo || !payload.direccion || !payload.estado) {
     mostrarMensajePanel('Completa todos los campos obligatorios del estudiante.', 'error');
     return;
   }
@@ -527,19 +404,11 @@ async function registrarEstudiante(evento) {
     await enviarConRespaldoLocal(API_CONFIG.endpoints.estudiantes, 'POST', payload, (res, simulado) => {
       const nuevo = res && res.id_estudiante
         ? res
-        : {
-            id_estudiante: obtenerSiguienteId(estadoSecretaria.estudiantes, 'id_estudiante'),
-            ...payload
-          };
+        : { id_estudiante: obtenerSiguienteId(estadoSecretaria.estudiantes, 'id_estudiante'), ...payload };
       estadoSecretaria.estudiantes.push(nuevo);
       renderizarTodoSecretaria();
       evento.target.reset();
-      mostrarMensajePanel(
-        simulado
-          ? 'Estudiante registrado en simulación local (pendiente de backend).'
-          : 'Estudiante registrado correctamente.',
-        'exito'
-      );
+      mostrarMensajePanel(simulado ? 'Estudiante registrado en simulación local.' : 'Estudiante registrado correctamente.', 'exito');
     });
   } catch (error) {
     mostrarMensajePanel(error.message, 'error');
@@ -564,19 +433,11 @@ async function registrarSeccion(evento) {
     await enviarConRespaldoLocal(API_CONFIG.endpoints.secciones, 'POST', payload, (res, simulado) => {
       const nueva = res && res.id_seccion
         ? res
-        : {
-            id_seccion: obtenerSiguienteId(estadoSecretaria.secciones, 'id_seccion'),
-            ...payload
-          };
+        : { id_seccion: obtenerSiguienteId(estadoSecretaria.secciones, 'id_seccion'), ...payload };
       estadoSecretaria.secciones.push(nueva);
       renderizarTodoSecretaria();
       evento.target.reset();
-      mostrarMensajePanel(
-        simulado
-          ? 'Sección creada en simulación local (pendiente de backend).'
-          : 'Sección creada correctamente.',
-        'exito'
-      );
+      mostrarMensajePanel(simulado ? 'Sección creada en simulación local.' : 'Sección creada correctamente.', 'exito');
     });
   } catch (error) {
     mostrarMensajePanel(error.message, 'error');
@@ -594,29 +455,21 @@ async function registrarHorarioAula(evento) {
     aula: document.getElementById('aula').value.trim()
   };
 
-  if (!payload.id_seccion || !payload.id_docente || !payload.grado || !payload.letra_seccion || !payload.bloque_horario || !payload.aula) {
+  if (!payload.id_seccion || !payload.id_docente || !payload.grado ||
+      !payload.letra_seccion || !payload.bloque_horario || !payload.aula) {
     mostrarMensajePanel('Completa todos los campos del horario y aula.', 'error');
     return;
   }
 
   const choque = detectarChoqueHorario(payload, estadoSecretaria.horarios);
-  if (choque) {
-    mostrarMensajePanel(choque, 'error');
-    return;
-  }
+  if (choque) { mostrarMensajePanel(choque, 'error'); return; }
 
   try {
     await enviarConRespaldoLocal(API_CONFIG.endpoints.horarios, 'POST', payload, (res, simulado) => {
-      const nuevo = res && res.id_seccion ? res : payload;
-      estadoSecretaria.horarios.push(nuevo);
+      estadoSecretaria.horarios.push(res && res.id_seccion ? res : payload);
       renderizarHorarios();
       evento.target.reset();
-      mostrarMensajePanel(
-        simulado
-          ? 'Horario asignado sin choques en simulación local.'
-          : 'Horario y aula asignados correctamente.',
-        'exito'
-      );
+      mostrarMensajePanel(simulado ? 'Horario asignado sin choques (simulación local).' : 'Horario y aula asignados correctamente.', 'exito');
     });
   } catch (error) {
     mostrarMensajePanel(error.message, 'error');
@@ -633,7 +486,7 @@ async function registrarInscripcion(evento) {
   };
 
   if (!payload.id_estudiante || !payload.id_seccion || !payload.fecha_inscripcion || !payload.estado) {
-    mostrarMensajePanel('Selecciona estudiante, sección, fecha y estado de inscripción.', 'error');
+    mostrarMensajePanel('Selecciona estudiante, sección, fecha y estado.', 'error');
     return;
   }
 
@@ -641,19 +494,11 @@ async function registrarInscripcion(evento) {
     await enviarConRespaldoLocal(API_CONFIG.endpoints.inscripciones, 'POST', payload, (res, simulado) => {
       const nueva = res && res.id_inscripcion
         ? res
-        : {
-            id_inscripcion: obtenerSiguienteId(estadoSecretaria.inscripciones, 'id_inscripcion'),
-            ...payload
-          };
+        : { id_inscripcion: obtenerSiguienteId(estadoSecretaria.inscripciones, 'id_inscripcion'), ...payload };
       estadoSecretaria.inscripciones.push(nueva);
       renderizarTodoSecretaria();
       evento.target.reset();
-      mostrarMensajePanel(
-        simulado
-          ? 'Inscripción registrada en simulación local (pendiente de backend).'
-          : 'Inscripción registrada correctamente.',
-        'exito'
-      );
+      mostrarMensajePanel(simulado ? 'Inscripción registrada en simulación local.' : 'Inscripción registrada correctamente.', 'exito');
     });
   } catch (error) {
     mostrarMensajePanel(error.message, 'error');
@@ -679,9 +524,7 @@ async function guardarChecklistDocumento(evento) {
 
   const existente = estadoSecretaria.checklists.find((c) => Number(c.id_inscripcion) === idInscripcion);
   const metodo = existente ? 'PUT' : 'POST';
-  const ruta = existente
-    ? `${API_CONFIG.endpoints.checklist}/${existente.id_checklist}`
-    : API_CONFIG.endpoints.checklist;
+  const ruta = existente ? `${API_CONFIG.endpoints.checklist}/${existente.id_checklist}` : API_CONFIG.endpoints.checklist;
 
   try {
     await enviarConRespaldoLocal(ruta, metodo, payload, (res, simulado) => {
@@ -689,19 +532,12 @@ async function guardarChecklistDocumento(evento) {
         Object.assign(existente, payload, res && res.id_checklist ? { id_checklist: res.id_checklist } : {});
       } else {
         estadoSecretaria.checklists.push({
-          id_checklist:
-            (res && res.id_checklist) ||
-            obtenerSiguienteId(estadoSecretaria.checklists, 'id_checklist'),
+          id_checklist: (res && res.id_checklist) || obtenerSiguienteId(estadoSecretaria.checklists, 'id_checklist'),
           ...payload
         });
       }
       renderizarChecklist();
-      mostrarMensajePanel(
-        simulado
-          ? 'Checklist actualizado en simulación local (pendiente de backend).'
-          : 'Checklist de documentos guardado correctamente.',
-        'exito'
-      );
+      mostrarMensajePanel(simulado ? 'Checklist actualizado en simulación local.' : 'Checklist guardado correctamente.', 'exito');
     });
   } catch (error) {
     mostrarMensajePanel(error.message, 'error');
@@ -716,32 +552,21 @@ function inicializarPanelSecretaria() {
   });
 
   const btnCerrar = document.getElementById('btn-cerrar-sesion');
-  if (btnCerrar && typeof cerrarSesion === 'function') {
-    btnCerrar.addEventListener('click', cerrarSesion);
-  }
+  if (btnCerrar && typeof cerrarSesion === 'function') btnCerrar.addEventListener('click', cerrarSesion);
 
   const btnRecargar = document.getElementById('btn-recargar-datos');
-  if (btnRecargar) {
-    btnRecargar.addEventListener('click', cargarDatosSecretaria);
-  }
+  if (btnRecargar) btnRecargar.addEventListener('click', cargarDatosSecretaria);
 
   document.getElementById('form-estudiante')?.addEventListener('submit', registrarEstudiante);
   document.getElementById('form-seccion')?.addEventListener('submit', registrarSeccion);
   document.getElementById('form-horario')?.addEventListener('submit', registrarHorarioAula);
   document.getElementById('form-inscripcion')?.addEventListener('submit', registrarInscripcion);
   document.getElementById('form-checklist')?.addEventListener('submit', guardarChecklistDocumento);
-
-  document
-    .getElementById('horario_id_seccion')
-    ?.addEventListener('change', sincronizarDatosSeccionHorario);
-  document
-    .getElementById('checklist_id_inscripcion')
-    ?.addEventListener('change', precargarChecklistExistente);
+  document.getElementById('horario_id_seccion')?.addEventListener('change', sincronizarDatosSeccionHorario);
+  document.getElementById('checklist_id_inscripcion')?.addEventListener('change', precargarChecklistExistente);
 
   const inputFecha = document.getElementById('fecha_inscripcion');
-  if (inputFecha && !inputFecha.value) {
-    inputFecha.value = new Date().toISOString().slice(0, 10);
-  }
+  if (inputFecha && !inputFecha.value) inputFecha.value = new Date().toISOString().slice(0, 10);
 
   cargarDatosSecretaria();
 }
