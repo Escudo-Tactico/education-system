@@ -1,4 +1,4 @@
-// Gestion de sesion y validacion de roles para el frontend (Escuela Maestro Feliciano Rodriguez)
+// auth.js — Sesión y validación de roles
 
 const AUTH_STORAGE_KEYS = {
   token: 'mf_token',
@@ -21,8 +21,17 @@ function cerrarSesion() {
   window.location.href = '../index.html';
 }
 
+// Normaliza el rol para comparar sin importar tildes ni mayúsculas
+function normalizarNombreRol(rol) {
+  return String(rol || '')
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+}
+
 function obtenerRutaPorRol(rol) {
-  switch (rol) {
+  switch (normalizarNombreRol(rol)) {
     case 'secretaria':
       return 'panel-secretaria.html';
     case 'docente':
@@ -50,5 +59,7 @@ async function iniciarSesion(correo, password) {
   }
 
   guardarSesion(datos.token, datos.usuario);
-  window.location.href = obtenerRutaPorRol(datos.usuario.rol);
+  // El backend puede devolver Nombre_rol (tabla Roles) o rol como string
+  const rolUsuario = datos.usuario && (datos.usuario.Nombre_rol || datos.usuario.rol);
+  window.location.href = obtenerRutaPorRol(rolUsuario);
 }

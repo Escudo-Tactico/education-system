@@ -9,52 +9,122 @@
 <body>
   <header class="topbar">
     <div class="topbar__marca">
-      <h1>Escuela Maestro Feliciano Rodríguez</h1>
-      <span>Portal Institucional y Gestión Escolar</span>
+      <div class="topbar__marca-grupo">
+        <svg class="topbar__icono" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <rect x="4" y="18" width="40" height="26" rx="3" fill="#e8f0f8" fill-opacity="0.2" stroke="#e8f0f8" stroke-width="2"/>
+          <path d="M24 4L4 18h40L24 4z" fill="#e8f0f8" fill-opacity="0.3" stroke="#e8f0f8" stroke-width="2" stroke-linejoin="round"/>
+          <rect x="14" y="28" width="8" height="16" rx="1" fill="none" stroke="#e8f0f8" stroke-width="2"/>
+          <rect x="26" y="28" width="8" height="8" rx="1" fill="none" stroke="#e8f0f8" stroke-width="2"/>
+          <circle cx="24" cy="13" r="3" fill="#e8f0f8" fill-opacity="0.6"/>
+          <line x1="24" y1="4" x2="24" y2="2" stroke="#e8f0f8" stroke-width="2" stroke-linecap="round"/>
+          <line x1="22" y1="2" x2="26" y2="2" stroke="#e8f0f8" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div>
+          <h1>Escuela Maestro Feliciano Rodríguez</h1>
+          <span>Portal Institucional y Gestión Escolar</span>
+        </div>
+      </div>
     </div>
-    <nav class="nav-links">
+    <nav class="nav-links" aria-label="Navegación principal">
+      <a href="#inicio">Inicio</a>
       <a href="#mision-vision">Misión y Visión</a>
-      <a href="#docentes">Personal Docente</a>
-      <a href="pages/registro.html">Registro</a>
+      <a href="#docentes">Equipo Docente</a>
       <a href="pages/login.html" class="btn-acceso">Iniciar Sesión</a>
     </nav>
   </header>
 
+  <!-- Carrusel dinámico protagonista -->
+  <section id="inicio" class="carrusel" aria-label="Galería institucional">
+    <div id="carrusel-principal" class="carrusel__contenedor">
+      <div id="carrusel-slides" class="carrusel__slides"></div>
+
+      <button
+        type="button"
+        id="carrusel-prev"
+        class="carrusel__control carrusel__control--prev"
+        aria-label="Imagen anterior"
+      >
+        &#10094;
+      </button>
+      <button
+        type="button"
+        id="carrusel-next"
+        class="carrusel__control carrusel__control--next"
+        aria-label="Imagen siguiente"
+      >
+        &#10095;
+      </button>
+
+      <div id="carrusel-indicadores" class="carrusel__indicadores" aria-label="Indicadores del carrusel"></div>
+    </div>
+  </section>
+
   <main class="contenedor">
-    <section class="hero">
+    <!-- Bienvenida e identidad institucional -->
+    <section class="bienvenida">
+      <span class="bienvenida__etiqueta">Educación Primaria · Comunidad y Formación</span>
       <h2>Bienvenidos a nuestra institución</h2>
+      <hr class="bienvenida__separador" />
       <p>
-        Espacio digital de la Escuela «Maestro Feliciano Rodríguez» para difundir nuestra
-        identidad institucional y organizar los procesos académicos y administrativos según cada rol.
+        En la <strong>Escuela «Maestro Feliciano Rodríguez»</strong> creemos en una educación
+        cercana, respetuosa y de calidad, donde cada niño y niña encuentra un espacio seguro para
+        aprender, convivir y desarrollar sus capacidades junto a sus docentes y su familia.
+      </p>
+      <p>
+        Este portal institucional reúne nuestra identidad educativa, el reconocimiento a nuestro
+        equipo docente y un acceso organizado para acompañar los procesos escolares de cada grado
+        y sección con claridad y calidez.
       </p>
     </section>
 
-    <section id="mision-vision" class="grid-2">
-      <article class="card">
-        <h3>Misión</h3>
-        <p>
-          Brindar una formación integral de calidad en un entorno ordenado, participativo y humano,
-          acompañando el crecimiento académico y ciudadano de cada estudiante junto a sus familias.
-        </p>
-      </article>
-      <article class="card">
-        <h3>Visión</h3>
-        <p>
-          Consolidarnos como una institución educativa de referencia por su excelencia pedagógica,
-          transparencia en la gestión escolar y articulación efectiva entre dirección, secretaría,
-          docentes y representantes.
-        </p>
-      </article>
+    <!-- Misión, Visión y Valores / Objetivos -->
+    <section id="mision-vision" class="bloque-institucional">
+      <h2 class="bloque-titulo">Identidad Institucional</h2>
+      <div class="grid-3">
+        <article class="card card--centrada">
+          <h3>Misión</h3>
+          <p>
+            Brindar una formación integral de calidad en educación primaria dentro de un entorno ordenado,
+            participativo y humano, acompañando el crecimiento académico y ciudadano de cada estudiante
+            junto a sus familias.
+          </p>
+        </article>
+
+        <article class="card card--centrada">
+          <h3>Visión</h3>
+          <p>
+            Consolidarnos como una institución educativa de referencia por su excelencia pedagógica,
+            transparencia en la gestión escolar y articulación efectiva entre dirección, secretaría,
+            docentes y representantes.
+          </p>
+        </article>
+
+        <article class="card card--centrada">
+          <h3>Valores y Objetivos</h3>
+          <ul class="lista-valores">
+            <li>Respeto, responsabilidad y compromiso comunitario.</li>
+            <li>Acompañamiento pedagógico cercano en cada grado y sección.</li>
+            <li>Gestión administrativa clara, oportuna y sin duplicidad de trámites.</li>
+          </ul>
+        </article>
+      </div>
     </section>
 
-    <section id="docentes">
-      <h2 style="color: var(--azul-oscuro); margin-bottom: 1rem;">Equipo Docente</h2>
-      <div id="lista-docentes" class="grid-3"></div>
+    <!-- Equipo Docente público -->
+    <section id="docentes" class="bloque-institucional">
+      <h2 class="bloque-titulo">Equipo Docente</h2>
+      <p class="bloque-subtitulo">
+        Personal académico comprometido con el acompañamiento diario de nuestras secciones de primaria.
+      </p>
+      <div id="lista-docentes" class="grid-3" aria-live="polite"></div>
     </section>
   </main>
 
   <footer class="footer">
-    Escuela Maestro Feliciano Rodríguez — Sistema de Gestión Escolar
+    Escuela Maestro Feliciano Rodríguez — Portal Institucional y Sistema de Gestión Escolar
   </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/portal.js"></script>
 </body>
 </html>

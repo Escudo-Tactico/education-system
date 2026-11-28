@@ -33,6 +33,18 @@ body {
   gap: 1rem;
 }
 
+.topbar__marca-grupo {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.topbar__icono {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+}
+
 .topbar__marca h1 {
   font-size: 1.25rem;
 }
@@ -398,4 +410,269 @@ body {
 .checklist-item input[type="checkbox"] {
   width: auto;
   accent-color: var(--azul-oscuro);
+}
+
+/* Carrusel dinámico protagonista del portal institucional */
+.carrusel {
+  width: 100%;
+  background-color: var(--azul-oscuro);
+  border-bottom: 4px solid var(--azul-medio);
+}
+
+.carrusel__contenedor {
+  position: relative;
+  max-width: 1280px;
+  margin: 0 auto;
+  height: 400px;
+  overflow: hidden;
+  background-color: var(--azul-oscuro);
+}
+
+.carrusel__slides {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.carrusel__slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+  pointer-events: none;
+}
+
+.carrusel__slide--activa {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.carrusel__imagen {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.carrusel__pie {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1.5rem 2rem 2.5rem;
+  background: linear-gradient(transparent, rgba(30, 58, 95, 0.92));
+  color: var(--blanco);
+}
+
+.carrusel__pie h2 {
+  font-size: 1.45rem;
+  margin-bottom: 0.3rem;
+}
+
+.carrusel__pie p {
+  font-size: 0.95rem;
+  color: var(--azul-claro);
+  max-width: 720px;
+}
+
+.carrusel__control {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 50%;
+  background-color: rgba(30, 58, 95, 0.78);
+  color: var(--blanco);
+  font-size: 1.2rem;
+  cursor: pointer;
+  z-index: 2;
+}
+
+.carrusel__control:hover {
+  background-color: var(--azul-medio);
+}
+
+.carrusel__control--prev {
+  left: 1rem;
+}
+
+.carrusel__control--next {
+  right: 1rem;
+}
+
+.carrusel__indicadores {
+  position: absolute;
+  left: 50%;
+  bottom: 0.85rem;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 0.55rem;
+  z-index: 2;
+}
+
+.carrusel__punto {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1px solid var(--blanco);
+  background-color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  padding: 0;
+}
+
+.carrusel__punto--activo {
+  background-color: var(--blanco);
+  transform: scale(1.15);
+}
+
+@media (max-width: 720px) {
+  .carrusel__contenedor {
+    height: 300px;
+  }
+
+  .carrusel__pie {
+    padding: 1rem 1.25rem 2.25rem;
+  }
+
+  .carrusel__pie h2 {
+    font-size: 1.15rem;
+  }
+}
+
+/* Bloques de contenido institucional debajo del carrusel */
+.bloque-institucional {
+  margin-bottom: 2.25rem;
+}
+
+.bloque-titulo {
+  color: var(--azul-oscuro);
+  font-size: 1.35rem;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 2px solid var(--azul-claro);
+}
+
+.bloque-subtitulo {
+  color: var(--gris-texto);
+  font-size: 0.95rem;
+  margin-bottom: 1.15rem;
+}
+
+.lista-valores {
+  padding-left: 1.15rem;
+  color: var(--texto-principal);
+}
+
+.lista-valores li {
+  margin-bottom: 0.45rem;
+}
+
+.llamado-acceso {
+  margin-top: 1.1rem;
+}
+
+.btn-inline {
+  display: inline-block;
+  width: auto;
+  text-decoration: none;
+  text-align: center;
+  padding: 0.65rem 1.35rem;
+}
+
+/* Bloque de bienvenida institucional */
+.bienvenida {
+  background: linear-gradient(180deg, var(--blanco) 0%, var(--gris-fondo) 100%);
+  border: 1px solid var(--gris-borde);
+  border-radius: 10px;
+  padding: 2.75rem 2.25rem 2.4rem;
+  margin-bottom: 2.5rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(30, 58, 95, 0.06);
+}
+
+.bienvenida::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, var(--azul-oscuro), var(--azul-medio), var(--azul-claro));
+}
+
+.bienvenida__etiqueta {
+  display: inline-block;
+  background-color: var(--azul-claro);
+  color: var(--azul-oscuro);
+  font-size: 0.78rem;
+  font-weight: bold;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  margin-bottom: 0.9rem;
+}
+
+.bienvenida h2 {
+  color: var(--azul-oscuro);
+  font-size: 1.65rem;
+  margin-bottom: 0.5rem;
+}
+
+.bienvenida__separador {
+  width: 64px;
+  height: 3px;
+  background-color: var(--azul-medio);
+  border: none;
+  border-radius: 2px;
+  margin: 0.85rem auto 1.25rem;
+}
+
+.bienvenida p {
+  color: var(--texto-principal);
+  font-size: 1.03rem;
+  max-width: 740px;
+  margin: 0 auto;
+  line-height: 1.75;
+  text-align: left;
+}
+
+.bienvenida p + p {
+  margin-top: 0.9rem;
+  color: var(--gris-texto);
+}
+
+.bienvenida strong {
+  color: var(--azul-oscuro);
+}
+
+/* Tarjetas con texto centrado para Misión/Visión/Valores */
+.card--centrada {
+  text-align: center;
+}
+
+.card--centrada h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.65rem;
+  position: relative;
+  display: inline-block;
+}
+
+.card--centrada h3::after {
+  content: '';
+  display: block;
+  width: 36px;
+  height: 2px;
+  background-color: var(--azul-medio);
+  margin: 0.4rem auto 0;
+  border-radius: 2px;
+}
+
+.card--centrada p,
+.card--centrada ul {
+  text-align: left;
 }
